@@ -1,4 +1,3 @@
-// app/recipes/[slug]/page.tsx
 import RecipePage from "@/components/RecipePage";
 import { getAllRecipeSlugs, getRecipeData } from "@/lib/recipes";
 import { notFound } from "next/navigation";
@@ -7,9 +6,10 @@ import { notFound } from "next/navigation";
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const recipe = getRecipeData(params.slug);
+  const { slug } = await params;
+  const recipe = getRecipeData(slug);
 
   if (!recipe) {
     return {
@@ -28,8 +28,13 @@ export async function generateMetadata({
   };
 }
 
-export default function Page({ params }: { params: { slug: string } }) {
-  const recipe = getRecipeData(params.slug);
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const recipe = getRecipeData(slug);
 
   // Handle cases where the recipe doesn't exist
   if (!recipe) {

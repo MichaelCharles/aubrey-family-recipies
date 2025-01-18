@@ -28,17 +28,6 @@ export type MatterResultData = {
   imageWanted?: boolean;
 };
 
-const emptyMatterResultData: MatterResultData = {
-  title: "",
-  by: "",
-  slug: "",
-  tags: [],
-  category: "",
-  coverImage: "",
-  imageSource: "",
-  imageWanted: false,
-};
-
 export function getSortedRecipesData(): MatterResultData[] {
   const fileNames = fs.readdirSync(recipesDirectory);
   const allRecipesData = fileNames.map((fileName) => {
